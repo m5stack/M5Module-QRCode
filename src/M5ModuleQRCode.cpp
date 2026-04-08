@@ -47,7 +47,7 @@ bool M5ModuleQRCode::_init_pi4ioe5v6408()
         _pi4ioe5v6408 = nullptr;
     }
 
-    _pi4ioe5v6408 = new m5::PI4IOE5V6408_Class(_config.pi4ioe5v6408_addr, 100000, = _config.i2c);
+    _pi4ioe5v6408 = new m5::PI4IOE5V6408_Class(_config.pi4ioe5v6408_addr, 100000, _config.i2c);
 
     if (_pi4ioe5v6408 == nullptr) {
         _LOG_ERROR("pi4ioe5v6408 malloc failed\n");
