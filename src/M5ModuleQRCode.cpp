@@ -42,33 +42,26 @@ bool M5ModuleQRCode::_init_pi4ioe5v6408()
     }
 
     // Probe device
-    bool is_found = false;
-    for (int i = 0; i < 3; i++) {
-        bool result[128];
-        _config.i2c->scanID(result);
-        if (result[_config.pi4ioe5v6408_addr]) {
-            is_found = true;
-            _LOG_DEBUG("pi4ioe5v6408 found at 0x%02x\n", _config.pi4ioe5v6408_addr);
-            break;
-        }
-        _LOG_ERROR("pi4ioe5v6408 not found at 0x%02x, retry %d\n", _config.pi4ioe5v6408_addr, i);
-        delay(500);
-    }
-    if (!is_found) {
-        _LOG_ERROR("pi4ioe5v6408 not found\n");
-        return false;
-    }
-
     if (_pi4ioe5v6408 != nullptr) {
         delete _pi4ioe5v6408;
         _pi4ioe5v6408 = nullptr;
     }
 
-    _pi4ioe5v6408 = new m5::PI4IOE5V6408_Class(_config.pi4ioe5v6408_addr, 100000, _config.i2c);
-    if (!_pi4ioe5v6408->begin()) {
-        _LOG_ERROR("init pi4ioe5v6408 failed\n");
+    _pi4ioe5v6408 = new m5::PI4IOE5V6408_Class(_config.pi4ioe5v6408_addr, 100000, = _config.i2c);
+
+    if (_pi4ioe5v6408 == nullptr) {
+        _LOG_ERROR("pi4ioe5v6408 malloc failed\n");
         return false;
     }
+
+    if (!_pi4ioe5v6408->begin()) {
+        _LOG_ERROR("pi4ioe5v6408 not found at 0x%02x\n", _config.pi4ioe5v6408_addr);
+        delete _pi4ioe5v6408;
+        _pi4ioe5v6408 = nullptr;
+        return false;
+    }
+
+    _LOG_DEBUG("pi4ioe5v6408 found at 0x%02x\n", _config.pi4ioe5v6408_addr);
 
     _pi4ioe5v6408->setDirection(CHANNEL_QRCODE_POWER_EN, true);
     _pi4ioe5v6408->setPullMode(CHANNEL_QRCODE_POWER_EN, true);
