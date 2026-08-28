@@ -64,13 +64,11 @@ bool M5ModuleQRCode::_init_pi4ioe5v6408()
     _LOG_DEBUG("pi4ioe5v6408 found at 0x%02x\n", _config.pi4ioe5v6408_addr);
 
     _pi4ioe5v6408->setDirection(CHANNEL_QRCODE_POWER_EN, true);
-    _pi4ioe5v6408->setPullMode(CHANNEL_QRCODE_POWER_EN, true);
-    _pi4ioe5v6408->enablePull(CHANNEL_QRCODE_POWER_EN, true);
+    _pi4ioe5v6408->setPullMode(CHANNEL_QRCODE_POWER_EN, m5::IOExpander_Base::pull_up);
     _pi4ioe5v6408->setHighImpedance(CHANNEL_QRCODE_POWER_EN, false);
 
     _pi4ioe5v6408->setDirection(CHANNEL_QRCODE_TRIG, true);
-    _pi4ioe5v6408->setPullMode(CHANNEL_QRCODE_TRIG, true);
-    _pi4ioe5v6408->enablePull(CHANNEL_QRCODE_TRIG, true);
+    _pi4ioe5v6408->setPullMode(CHANNEL_QRCODE_TRIG, m5::IOExpander_Base::pull_up);
     _pi4ioe5v6408->setHighImpedance(CHANNEL_QRCODE_TRIG, false);
 
     return true;
